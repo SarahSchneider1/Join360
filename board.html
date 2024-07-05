@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style_board.css">
+    <link rel="stylesheet" href="./styles/style_addtask.css">
+    <link rel="stylesheet" href="./styles/style_edittask.css">
+    <script src="./scripts/templates.js"></script>
+    <script src="./scripts/board.js"></script>
+    <script src="./scripts/add_task.js"></script>
+    <script src="./scripts/edit_task.js"></script>
+    <script src="./scripts/board_drag.js"></script>
+    <script src="./scripts/board_add_edit_tasks.js"></script>
+    <script src="./scripts/add_task_dropdowns.js"></script>
+    <script src="./scripts/add_task_validations.js"></script>
+    <script src="./scripts/add_task_post.js"></script>
+    <script src="./scripts/edit_task_dropdowns.js"></script>
+    <script src="./scripts/edit_task_validations.js"></script>
+    <script src="./scripts/edit_task_post.js"></script>
+
+    <title>Board</title>
+    <link rel="icon" href="./assets/img/favicon.png" type="image/x-icon">
+</head>
+
+<body onload="loadAddTaskContent(), loadEditTaskContent()" onclick="closeDialog()">
+    <div id="sidebarContainer">
+        <script type="module" src="./scripts/singnedinuser.js"></script>
+    </div>
+    <div class="wrapped_maxWidth">
+        <div class="boardHeadline">
+            <h1>Board</h1>
+            <div class="boardHeadlineActions">
+                <div id="searchTask" class="searchTask">
+                    <input class="inputSearchTask" type="text" id="search" placeholder="Find Task"
+                        oninput="searchTask()">
+                    <div class="verticalLineSearchTask"></div>
+                    <img class="magnifyingGlass" src="./assets/img/search.svg" width="32" height="32" alt="Lupe">
+                </div>
+                <button onclick="openDialog(), closeOnBackground(event)" class="addTaskButton">
+                    Add task
+                    <img src="./assets/img/addWhite.png" alt="Plus-Symbol">
+                </button>
+            </div>
+        </div>
+
+        <div class="boardTasks">
+            <div id="todo" class="statusTasks" ondrop="moveTo('todo')" ondragleave="removeHighlight('todo')"
+                ondragover="allowDrop(event); highlight('todo')">
+                <div class="headlineStatusTasks">
+                    <h5 class="taskStatusTitle">To do</h5>
+                    <div class="imageContainer">
+                        <img onclick="openDialog(), closeOnBackground(event)" class="add_task_to_board"
+                            src="./assets/img/add.svg" width="24" alt="Add task">
+                    </div>
+                </div>
+                <div class="tasks" id="to-do-tasks-container">
+                    <div class="arrowContainer">
+                        <img src="./assets/img/arrow_drop.svg" class="arrow" alt="Arrow Drop">
+                        <img src="./assets/img/arrow_drop_down.svg" class="arrow" alt="Arrow Drop Down">
+                    </div>
+                </div>
+            </div>
+
+            <div id="inprogress" class="statusTasks" ondrop="moveTo('inprogress')"
+                ondragleave="removeHighlight('inprogress')" ondragover="allowDrop(event); highlight('inprogress')">
+                <div class="headlineStatusTasks">
+                    <h5 class="taskStatusTitle">In progress</h5>
+                    <img onclick="openDialog(), closeOnBackground(event)" class="add_task_to_board"
+                        src="./assets/img/add.svg" width="24" height="24" alt="Add task">
+                </div>
+
+                <div class="tasks" id="in-progress-tasks-container"></div>
+            </div>
+
+            <div id="awaitfeedback" class="statusTasks" ondrop="moveTo('awaitfeedback')"
+                ondragleave="removeHighlight('awaitfeedback')"
+                ondragover="allowDrop(event); highlight('awaitfeedback')">
+                <div class="headlineStatusTasks">
+                    <h5 class="taskStatusTitle">Await feedback</h5>
+                    <img onclick="openDialog(), closeOnBackground(event)" class="add_task_to_board"
+                        src="./assets/img/add.svg" width="24" height="24" alt="Add task">
+                </div>
+                <div class="tasks" id="await-feedback-tasks-container"></div>
+            </div>
+
+            <div id="done" class="statusTasks" ondrop="moveTo('done')" ondragleave="removeHighlight('done')"
+                ondragover="allowDrop(event); highlight('done')">
+                <div class="headlineStatusTasks">
+                    <h5 class="taskStatusTitle">Done</h5>
+                </div>
+                <div class="tasks" id="done-tasks-container"></div>
+            </div>
+
+
+            <div onclick="hidePopup()" id="popup" class="taskBoxBackground hidden">
+                <div id="TaskDetailsDialog" onclick="closeOnBackground(event)" class="TaskDetails slide-in-right"
+                    data-taskid="">
+                    <img class="closePopup" src="./assets/img/close.png" onclick="hidePopup('popup')" alt="Close">
+                    <button id="CategoryBox" class="CategoryBox"></button>
+                    <div class="taskDialogContent">
+                        <h2 id="HeadlineBox" class="HeadlineBox"></h2>
+                        <p id="descriptionDetails" class="descriptionDetails"></p>
+                        <div class="TaskDetailsLine">
+                            <p class="dueDate">Due date:</p>
+                            <p id="dueDate"></p>
+                        </div>
+                        <div class="priorityContainer">
+                            <p class="dueDate">Priority:</p>
+                            <p id="Priority"></p>
+                            <img id="PriorityImg" class="prioImg" src="./assets/img/prio_baja.png" alt="Priority">
+                        </div>
+                        <div class="TaskDetailsLine">
+                            <p class="dueDate">Assigned To:</p>
+                        </div>
+                        <div class="assignedContainer">
+                            <div class="assignedItem">
+                                <div class="assignedInitials" id="assignedInitials"></div>
+                                <p class="assignedNameDetails" id="assignedName"></p>
+                            </div>
+                        </div>
+                        <div class="subtasksTitle">
+                            <p>Subtasks</p>
+                            <div id="subtaskItem">
+                                <p id="subtaskDialogText"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="editDeleteWrapper">
+                        <div class="editDeleteContainer deleteContainer" onclick="deleteTask()">
+                            <img src="./assets/img/delete.png" alt="Delete">
+                            <span>Delete</span>
+                        </div>
+                        <div>
+                            <img src="./assets/img/separator.png" alt="Edit">
+                        </div>
+                        <div class="editDeleteContainer editContainer" onclick="openDialogEdit()">
+                            <img src="./assets/img/edit.png" alt="Edit">
+                            <span>Edit</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div id="dialog" class="dialog-bg d_none">
+            <div onclick="closeOnBackground(event)" id="add_task_dialog_content" class="add_task_dialog">
+                <button onclick="closeDialog()" class="close_dialog_btn">
+                    <img src="./assets/img/close.png" alt="Close">
+                </button>
+            </div>
+        </div>
+        <div onclick="closeDialogEdit()" id="edit-dialog" class="edit-dialog-bg edit-d_none">
+            <div onclick="closeOnBackground(event), editCloseSelectCategory(), editCloseAssignTo(), editCloseAddSubtaskField() "
+                id="edit_task_dialog_content" class="edit_task_dialog">
+
+            </div>
+        </div>
+    </div>
+    <!-- EDIT TASK OVERLAY -->
+    <div class="taskBoxBackground hidden" id="editTaskOverlay">
+    </div>
+
+    </div>
+
+</body>
+
+</html>

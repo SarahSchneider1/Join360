@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style_addtask.css">
+    <link rel="stylesheet" href="./styles/style_edittask.css">
+    <link rel="stylesheet" href="./styles/fonts.css">
+    <script src="./scripts/add_task.js"></script>
+    <script src="./scripts/edit_task.js"></script>
+    <script src="./scripts/templates.js"></script>
+    <script src="./scripts/add_task_dropdowns.js"></script>
+    <script src="./scripts/add_task_validations.js"></script>
+    <script src="./scripts/add_task_post.js"></script>
+    <script src="./scripts/edit_task_dropdowns.js"></script>
+    <script src="./scripts/edit_task_validations.js"></script>
+    <script src="./scripts/edit_task_post.js"></script>
+    <title>Edit task</title>
+    <link rel="icon" href="./assets/img/favicon.png" type="image/x-icon">
+</head>
+
+<body onload="editSetDateRestriction()">
+    <h2 class="edit-header">Edit Task</h2>
+    <div id="edittask-content" class="edittask-content">
+        <button onclick="closeDialogEdit()" class="close_edit_dialog_btn">
+            <img src="./assets/img/close.png" alt="Close">
+        </button>
+        <div class="edit-main-addtask">
+            <div class="edit-left-container">
+                <div class="inputfields">
+                    <span class="required">Title</span>
+                    <input id="edit-tasktitle" required type="text" placeholder="Enter a title">
+                    <div id="edit-error-message-placeholder"><span id="edit-error-message-title"
+                            class="edit-error-message">Please
+                            enter
+                            a Title</span>
+                    </div>
+                </div>
+                <div class="description">
+                    <span>Description</span>
+                    <textarea class="edit-textarea" name="Description" id="edit-description"
+                        placeholder="Enter a Description"></textarea>
+                </div>
+                <div class="inputfields">
+                    <span>Assigned to</span>
+                    <div class="dropdown_container">
+                        <input oninput="editHandleAssignToInput()"
+                            onclick="editSelectAssignTo(), editCloseOnBackground(event)" id="edit-assignedtoinput"
+                            class="dropdown-content" name="assignedto" placeholder="Select contacts to assign">
+                        <div onclick="editCloseOnBackground(event)" id="edit-assignedto" class="dropdown_box">
+                        </div>
+                    </div>
+                    <div class="edit-button-container" id="edit-selectedAssignTo">
+                    </div>
+                </div>
+            </div>
+            <div class="edit-right-container">
+                <div class="inputfields">
+                    <span class="required">Due Date</span>
+                    <input onfocus="editSetDateRestriction()" onsubmit="return editValidateDueDate()" id="edit-duedate"
+                        name="duedate" class="datefield" required type="date" placeholder="dd/mm/yyyy">
+                    <div id="edit-error-message-placeholder"><span id="edit-error-message-date"
+                            class="edit-error-message">Please enter
+                            a Date</span>
+                    </div>
+                </div>
+                <div class="prio">
+                    <span>Prio</span>
+                    <div id="edit-priobuttons" class="edit-prio-buttons">
+                        <button onclick="editUrgentButton()" id="edit-urgent">Urgent <img
+                                src="./assets/img/prio_alta.png" alt=""></button>
+                        <button onclick="editMediumButton()" id="edit-medium">Medium <img
+                                src="./assets/img/prio_media.png" alt=""></button>
+                        <button onclick="editLowButton()" id="edit-low">Low <img src="./assets/img/prio_baja.png"
+                                alt=""></button>
+                    </div>
+                </div>
+                <div onload="editLoadAddTaskContent()" class="inputfields">
+                    <span class="required">Category</span>
+                    <div class="dropdown_container">
+                        <input oninput="editHandleCategoryInput()"
+                            onclick="editSelectCategory(), editCloseOnBackground(event)" id="edit-taskcategoryinput"
+                            class="dropdown-category-content" name="taskcategory" placeholder="Select task category">
+                        <div onclick="editCloseOnBackground(event)" id="edit-taskcategory"
+                            class="category_dropdown_box">
+
+                        </div>
+                    </div>
+                    <div id="edit-error-message-placeholder"><span id="edit-error-message-category"
+                            class="edit-error-message">Please
+                            select
+                            category</span>
+                    </div>
+                </div>
+                <div onclick="editCloseOnBackground(event)" class="inputfields">
+                    <span>Subtasks</span>
+                    <input onclick="editOpenAddSubtaskField()" id="edit-addsubtask" class="subtask" type="text"
+                        placeholder="Add new subtask">
+                    <input onclick="editHandleSubtaskClick(event), editAddSubtask(event)"
+                        onkeydown="editCheckEnter(event)" id="edit-subtask" class="aktive-subtask" type="text"
+                        minlength="4" maxlength="20">
+                </div>
+                <div class="subtask-container">
+                    <div id="edit-addsubtasks" class="edit-subtaskblock">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="task-created task-cont" id="task-created">
+            <p class="#">Task successfully updated</p>
+        </div>
+
+    </div>
+    <div class="edit-bottom-container">
+        <div class="edit-submit-buttons">
+            <button onclick="handleSaveButtonClicked()" id="edit" class="edit-create-button">Ok<img
+                    src="./assets/img/check.png" alt=""></button>
+        </div>
+    </div>
+</body>
+
+</html>

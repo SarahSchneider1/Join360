@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style_sidebar.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/fonts.css">
+    <script src="./scripts/script.js"></script>
+    <script src="./scripts/templates.js"></script>
+</head>
+
+<body><div style="overflow-y: hidden; overflow-x: hidden; display: flex;">
+    <div class="sidebar">
+        <img class="logo-sidebar" src="./assets/img/logo_white.svg" onclick="selectSummary()" style="cursor: pointer;">
+        <div id="sidebarMenu">
+            <a class="sidebar-menu-row" id="summaryBtn" href="summary.html"><img class="icon"
+                    src="./assets/img/summary.png" alt="">Summary</a>
+            <a class="sidebar-menu-row" id="add_taskBtn" href="add_task.html"><img class="icon"
+                    src="./assets/img/addtask.png" alt="">Add Task</a>
+            <a class="sidebar-menu-row" id="boardBtn" href="board.html"><img class="icon" src="./assets/img/board.png"
+                    alt="">Board</a>
+            <a class="sidebar-menu-row" id="contactsBtn" href="contacts.html"><img class="icon"
+                    src="./assets/img/contacts.png" alt="">Contacts</a>
+        </div>
+        <div class="sidebar-bottom">
+            <a class="bottom-row" id="privacy_policyBtn" href="privacy_policy.html">
+                <div class="direction-left">Privacy Policy</div>
+            </a>
+            <a class="bottom-row" id="legal_noticeBtn" href="legal_notice.html">
+                <div class="direction-left">Legal Notice</div>
+            </a>
+        </div>
+    </div>
+    <div class="main">
+        <div class="header">
+            <p id="headline">Kanban Project Management Tool</p>
+            <img src="./assets/img/logo.png" alt="" id="joinHeader" onclick="selectSummary()" style="cursor: pointer;">
+            <div class="top-right">
+                <div class="bounding-box" onclick="selectHelp()"><img class="help-icon" src="./assets/img/help.png"
+                        alt="Help"></a></div>
+                <div class="profile-icon" id="userblock" onclick="showSubmenu()"></div>
+            </div>
+        </div>
+        <div class="submenu d-none" id="submenu">
+            <div class="submenu-link" onclick="selectLegalNotice()">
+                <p class="submenu-link-text">Legal Notice</p>
+            </div>
+            <div class="submenu-link" onclick="selectPrivacyPolicy()">
+                <p class="submenu-link-text">Privacy Policy</p>
+            </div>
+            <div onclick="handleLogout()" id="logout" class="submenu-link">
+                <p class="submenu-link-text">Logout</p>
+            </div>
+        </div>
+        <div id="content"></div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./scripts/templates.js"></script>
+    <script src="./scripts/contacts.js"></script>
+    <script src="./scripts/add_task.js"></script>
+    <script src="./scripts/contacts-html.js"></script>
+    <link rel="stylesheet" href="./styles/style_contacts.css">
+    <link rel="stylesheet" href="./styles/fonts.css">
+    <link rel="stylesheet" href="./styles/style_sidebar.css">
+    <title>Contacts</title>
+    <link rel="icon" href="./assets/img/favicon.png" type="image/x-icon">
+</head>
+
+<body><div style="overflow-y: hidden; overflow-x: hidden; display: flex; width: 100vw;">
+        <div id="sidebarContainer">
+        <script type="module" src="./scripts/singnedinuser.js"></script>
+    </div>
+    <div class="contacts-left" id="contactsLeft">
+        <button onclick="slideInFromRight()" class="add-contact-btn">
+            <div class="button-row">
+                <div class="add-new-contact-text">Add new contact</div>
+                <img src="assets/img/contacts_add_contact.png" alt="add contact" class="add-contact-icon">
+            </div>
+        </button>
+        <button onclick="slideInFromRight()" class="add-contact-mobile">
+            <img src="assets/img/contacts_add_contact.png" alt="add contact" class="add-contact-icon">
+        </button>
+
+        <div id="contactForString">
+        </div>
+    </div>
+    <div class="main-contacts" id="mainContacts">
+        <div class="main-contacts-text">
+            <h1>Contacts</h1>
+            <div class="vertical-line"></div>
+            <h2 id="betterInATeam">Better with a team</h2>
+            <div class="horizontal-line"></div>
+        </div>
+        <div id="contactSummary">
+
+        </div>
+    </div>
+
+
+    <!-- ADD CONTACT OVERLAY -->
+    <div class="contact-overlay d-flex j-center a-center" id="contact-overlay"
+        onclick="closeOverlayWhenGreyAreaWasClicked()">
+        <div class="contact-cont d-flex" id="contact-cont">
+            <div class="contact-left d-flex f-column j-center">
+                <div class="contact-close-white j-end a-center">
+                    <div class="contact-close-btn-white d-flex j-center a-center" onclick="slideOutToRight()">
+                        <img src="./assets/img/contacts_close_white.png">
+                    </div>
+                </div>
+                <img class="contacts-logo" src="./assets/img/contacts_logo.png">
+                <span class="f-size-61">Add contact</span>
+                <span class="f-size-27">Tasks are better with a team!</span>
+                <img class="contacts-underline" src="./assets/img/contacts_underline_blue.png">
+
+            </div>
+            <div class="contact-right d-flex j-evenly a-center">
+                <div class="contact-person d-flex j-center a-center">
+                    <img src="./assets/img/contacts_person_big.png">
+                </div>
+                <div class="contact-form-cont d-flex f-column">
+                    <div class="contact-close d-flex j-end a-center">
+                        <div class="contact-close-btn d-flex j-center a-center" onclick="slideOutToRight()">
+                            <img src="./assets/img/contacs_close.png">
+                        </div>
+                    </div>
+                    <form onsubmit="createContact(); return false" id="contact-form-create-contact" class="contact-form d-flex f-column j-between">
+                        <input required="" id="contact-name" type="text" placeholder="Name"
+                            class="contact-input-fields">
+                        <input required="" id="contact-email" type="email" placeholder="Email"
+                            class="contact-input-fields">
+                        <input required="" id="contact-phone" type="tel" placeholder="Phone"
+                            class="contact-input-fields">
+                        <div class="contact-form-btn d-flex">
+                            <button type="button" id="contact-cancel-contact" onclick="slideOutToRight()"
+                                class="contact-cancel-btn d-flex a-center j-center">Cancel
+                                <img src="./assets/img/contacts_iconoir_cancel.png">
+                                <img src="./assets/img/contacts_iconoir_cancel_blue.png" id="contact-cancel-blue"
+                                    class="d-none">
+                            </button>
+                            <button type="submit" id="contact-create-contact"
+                                class="contact-create-btn d-flex a-center j-center">Create contact
+                                <img src="./assets/img/contacts_check.png">
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT SUCCESSFULLY CREATED-->
+    <div class="contact-created contact-cont" id="contact-created">
+        <p class="#">Contact successfully created</p>
+    </div>
+
+    <!-- EDIT CONTACT OVERLAY -->
+    <div class="contact-overlay d-flex j-center a-center" id="edit-contact-overlay"
+        onclick="closeOverlayWhenGreyAreaWasClicked()">
+        <div class="contact-cont d-flex" id="edit-contact-cont">
+            <div class="contact-left d-flex f-column j-center">
+                <div class="contact-close-white j-end a-center">
+                    <div class="contact-close-btn-white d-flex j-center a-center" onclick="editSlideOutToRight()">
+                        <img src="./assets/img/contacts_close_white.png">
+                    </div>
+                </div>
+                <img class="contacts-logo" src="./assets/img/contacts_logo.png">
+                <span class="f-size-61">Edit contact</span>
+                <img class="contacts-underline" src="./assets/img/contacts_underline_blue.png">
+
+            </div>
+            <div class="contact-right d-flex j-evenly a-center">
+                <div id="contactEditProfileInitials" class="contact-summary-initials contact-person d-flex j-center a-center"></div>
+                <div class="contact-form-cont d-flex f-column">
+                    <div class="contact-close d-flex j-end a-center">
+                        <div class="contact-close-btn d-flex j-center a-center" onclick="editSlideOutToRight()">
+                            <img src="./assets/img/contacs_close.png">
+                        </div>
+                    </div>
+
+                    <form onsubmit="editContact(event)" class="contact-form d-flex f-column j-between">
+                        <input required="" id="edit-contact-name" type="text" value="" class="contact-input-fields">
+                        <input required="" id="edit-contact-email" type="email" value="" class="contact-input-fields">
+                        <input required="" id="edit-contact-phone" type="tel" value="" class="contact-input-fields">
+                        <div class="contact-form-btn d-flex">
+                            <button type="button" onclick="editSlideOutToRight()"
+                                class="contact-cancel-btn d-flex a-center j-center">
+                                Delete
+                                <img src="./assets/img/contacts_iconoir_cancel.png">
+                                <img src="./assets/img/contacts_iconoir_cancel_blue.png" id="contact-cancel-blue"
+                                    class="d-none">
+                            </button>
+                            <button type="submit" id="contact-create-contact"
+                                class="contact-create-btn d-flex a-center j-center">
+                                Save
+                                <img src="./assets/img/contacts_check.png">
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT SUCCESSFULLY EDITED-->
+    <div class="contact-created contact-cont" id="contact-edited">
+        <p class="#">Contact successfully edited</p>
+    </div>
+    <!-- DELETE CONTACT OVERLAY -->
+    <div id="delete-contact-overlay" class="overlay">
+        <div class="overlay-content">
+            <h2>Are you sure you want to delete this contact?</h2>
+            <div class="flex-row">
+                <button onclick="deleteContact()" class="yes-no-btn">Yes</button>
+                <button onclick="deleteSlideOutToRight()" class="yes-no-btn">No</button>
+            </div>
+        </div>
+    </div>
+    <!-- CONTACT SUCCESSFULLY DELETED -->
+    <div class="contact-created contact-cont" id="contact-deleted">
+        <p>Contact successfully deleted</p>
+    </div>
+</div>
+</body>
+
+</html>
